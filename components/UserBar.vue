@@ -12,9 +12,8 @@
 <style>
 .user-bar {
   display: flex;
-  justify-content: center;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding-inline: 45px;
   box-sizing: border-box;
   width: 100%;
@@ -23,5 +22,8 @@
   border-top-right-radius: 45px;
   background-color: red;
   align-self: flex-end;
+  background: url("ui_background.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 </style>

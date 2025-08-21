@@ -1,24 +1,67 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { EnemyClass } from "~/classes/Enemy";
+import { ref } from "vue";
+import Enemy from "~/components/Enemy.vue";
+import { enemyEntity } from "~/entities/data";
+const currentEnemy = ref<{ hp: number; name: string; src: string } | null>(
+  null
+);
+const enemyKey = ref(0);
+const appStore = useAppStore();
 
-const scaleValue = ref<number>(1)
-const damageIsTaken = ref<boolean>(false)
+onMounted(() => {
+  const save = localStorage.getItem("save");
+  if (!save) {
+    const enemyStats =
+      enemyEntity[Math.floor(Math.random() * enemyEntity.length)]!;
+    const enemy = new EnemyClass(enemyStats);
+    enemy.createEntity(enemyKey, currentEnemy);
+  }
 
+  const enemyStats = JSON.parse(save as string);
+  const enemy = new EnemyClass(enemyStats);
+  enemy.createEntity(enemyKey, currentEnemy);
+  enemyKey.value = enemyStats.enemyKey | 1;
 
-function takeDamage(): void{
-    scaleValue.value = 0.8
-    damageIsTaken.value = true
-    setTimeout(() => {
-      scaleValue.value = 1
-      damageIsTaken.value = false
-    }, 100)
-}
+  watch(
+    () => appStore.inFight,
+    () => {
+      if (!appStore.inFight) {
+        const enemyStats =
+          enemyEntity[Math.floor(Math.random() * enemyEntity.length)]!;
+        const enemy = new EnemyClass(enemyStats);
+        enemy.createEntity(enemyKey, currentEnemy);
+      }
+    }
+  );
+
+  onUnmounted(() => {
+    localStorage.setItem(
+      "save",
+      JSON.stringify({ ...appStore.currentEnemy, enemyKey: enemyKey.value })
+    );
+  });
+
+  window.addEventListener("beforeunload", (e) => {
+    e.preventDefault();
+    localStorage.setItem(
+      "save",
+      JSON.stringify({ ...appStore.currentEnemy, enemyKey: enemyKey.value })
+    );
+  });
+});
 </script>
 
 <template>
   <div class="window">
     <div class="window__display">
-      <img src="../public/warm.png" class="enemy" :class="{'enemy__take-damage': damageIsTaken}" draggable="false" width="400" height="400" @click="takeDamage" :style="{transform: `scale(${scaleValue})`, transition: 'transform 0.1s ease-in-out'}"></img>
+      <Enemy
+        v-if="currentEnemy"
+        :hp="currentEnemy.hp"
+        :name="currentEnemy.name"
+        :src="currentEnemy.src"
+        :key="enemyKey"
+      ></Enemy>
     </div>
     <UserBar></UserBar>
   </div>
@@ -42,7 +85,7 @@ function takeDamage(): void{
   background-size: cover;
 }
 
-.window__display{
+.window__display {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -51,33 +94,21 @@ function takeDamage(): void{
   height: 100%;
 }
 
-.enemy{
-  user-select: none;
-}
-
-.enemy__take-damage{
-  user-select: none;
-  filter: brightness(0) saturate(100%) invert(24%) sepia(93%) saturate(6240%) hue-rotate(355deg) brightness(103%) contrast(128%) opacity(80%);
-}
-
 @media (width >= 768px) {
   .window {
-  width: 50%;
-}
+    width: 50%;
+  }
 
-@media (width >= 1024px){
-  .window{
-    width: 40vw;
+  @media (width >= 1024px) {
+    .window {
+      width: 40vw;
+    }
+  }
+
+  @media (width >= 1536px) {
+    .window {
+      width: 30vw;
+    }
   }
 }
-
-@media (width >= 1536px) {
-  .window{
-    width: 30vw;
-  }
-}
-
-}
-
-
 </style>

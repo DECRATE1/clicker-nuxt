@@ -7,21 +7,21 @@ const props = defineProps({
 })
 
 const {index} = props
-
+const appStore = useAppStore()
 const src = ref<string>("ui_" + (index + 1) + ".png")
 
 </script>
  
 <template>
-    <NuxtLink to="inventory" class="ui-btn" >
+    <NuxtLink to="inventory" class="ui-btn">
         <img class="ui-btn__image" alt="ui-image" :src="src" width="128" height="128" @mouseenter="src = `ui_${index + 1}_hover.png`" @mouseleave="src=`ui_${index+1}.png`"></img>
     </NuxtLink>
 </template>
 
 <style>
 .ui-btn {
-  width: 128px;
-  height: 128px;
+  width: 115px;
+  height: 115px;
   border-radius: 60px;
   color: white;
   cursor: pointer;
