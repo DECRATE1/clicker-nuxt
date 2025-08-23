@@ -3,19 +3,22 @@ interface EnemyDTO {
   name: string;
   id: number;
   src: string;
+  drop?: { id: number; name: string; dropChance: number; type: string }[];
 }
 
-export class EnemyClass {
-  hp: number;
-  name: string;
-  id: number = 1;
-  src: string;
+export class EnemyClass implements EnemyDTO {
+  hp;
+  name;
+  id = 1;
+  src;
   appStore = useAppStore();
-  constructor({ hp, name, id, src }: EnemyDTO) {
+  drop;
+  constructor({ hp, name, id, src, drop }: EnemyDTO) {
     this.hp = hp;
     this.name = name;
     this.id = id;
     this.src = src;
+    this.drop = drop;
   }
 
   createEntity(currentKey: Ref, currentEnemy: Ref) {

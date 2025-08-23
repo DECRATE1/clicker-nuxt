@@ -14,7 +14,7 @@ const src = ref<string>("ui_" + (index + 1) + ".png")
  
 <template>
     <NuxtLink to="inventory" class="ui-btn">
-        <img class="ui-btn__image" alt="ui-image" :src="src" width="128" height="128" @mouseenter="src = `ui_${index + 1}_hover.png`" @mouseleave="src=`ui_${index+1}.png`"></img>
+        <img class="ui-btn__image" alt="ui-image" loading="lazy" :src="src" width="128" height="128" @mouseenter="src = `ui_${index + 1}_hover.png`" @mouseleave="src=`ui_${index+1}.png`"></img>
     </NuxtLink>
 </template>
 

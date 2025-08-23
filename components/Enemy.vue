@@ -39,7 +39,7 @@ function takeDamage(): void {
 
 <template>
     <div class="enemy-container">
-        <img :src="srcImage" id="enemy"  class="enemy" :class="{'enemy__take-damage': damageIsTaken}" draggable="false" width="400" height="400" @click="takeDamage" :style="{transform: `scale(${scaleValue})`, transition: 'transform 0.1s ease-in-out'}"></img>
+        <img :src="srcImage" loading="lazy" id="enemy"  class="enemy" :class="{'enemy__take-damage': damageIsTaken}" draggable="false" width="400" height="400" @click="takeDamage" :style="{transform: `scale(${scaleValue})`, transition: 'transform 0.1s ease-in-out'}"></img>
         <div>{{ hp }}</div>
      </div>
 </template>
