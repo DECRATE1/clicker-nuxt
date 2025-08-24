@@ -1,4 +1,4 @@
-interface ItemDto {
+export interface ItemDto {
   id: number;
   type: string;
   cost: number;
@@ -6,6 +6,7 @@ interface ItemDto {
   src: string;
   damage?: number;
   ability?: () => void;
+  maxQuantity: number;
 }
 
 export class Item implements ItemDto {
@@ -16,7 +17,17 @@ export class Item implements ItemDto {
   src;
   damage;
   ability;
-  constructor({ id, type, cost, dropChance, src, damage, ability }: ItemDto) {
+  maxQuantity;
+  constructor({
+    id,
+    type,
+    cost,
+    dropChance,
+    src,
+    damage,
+    ability,
+    maxQuantity,
+  }: ItemDto) {
     this.id = id;
     this.type = type;
     this.cost = cost;
@@ -24,10 +35,11 @@ export class Item implements ItemDto {
     this.src = src;
     this.damage = damage;
     this.ability = ability;
+    this.maxQuantity = maxQuantity;
   }
 
   isDropted() {
-    return Math.random() * 100 >= this.dropChance;
+    return this.dropChance >= Math.floor(Math.random() * 100);
   }
 
   useAbility() {

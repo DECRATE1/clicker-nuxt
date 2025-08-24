@@ -1,5 +1,8 @@
 <script setup lang="ts"> 
 import { ref } from "vue";
+import { inventory } from "~/classes/Inventory";
+import { Item, type ItemDto } from "~/classes/Item";
+import { ItemData } from "~/data/Itemdata";
 
 const props = defineProps({
 
@@ -19,12 +22,22 @@ const hp = ref(appStore.currentEnemy.hp)
 const scaleValue = ref<number>(1);
 const damageIsTaken = ref<boolean>(false);
 const srcImage = ref("/_nuxt/public/"+src+".png")
+
+const inventoryStore = useInventoryStore()
+
+
+
 function takeDamage(): void {
   scaleValue.value = 0.8;
   damageIsTaken.value = true;
   appStore.currentEnemy.hp -= 1
   hp.value = appStore.currentEnemy.hp
-  if(appStore.currentEnemy.hp === 0){
+  if(appStore.currentEnemy.hp <= 0){
+    const itemData = ItemData[Math.floor(Math.random() * ItemData.length)]
+    const item = new Item(itemData!)
+    if(item.isDropted()){
+      inventoryStore.addItem(item)
+    }
     appStore.endFight()
     return
   }

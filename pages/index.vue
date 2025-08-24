@@ -2,7 +2,7 @@
 import { EnemyClass } from "~/classes/Enemy";
 import { ref } from "vue";
 import Enemy from "~/components/Enemy.vue";
-import { enemyEntity } from "~/entities/data";
+import { enemyEntity } from "~/data/Entitydata";
 const currentEnemy = ref<{ hp: number; name: string; src: string } | null>(
   null
 );

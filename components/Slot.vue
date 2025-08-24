@@ -1,17 +1,26 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import Item from "./Item.vue";
+import { Slot } from "~/classes/Slot";
 
-const slotIsActive = ref(false);
+const props = defineProps({
+  index: Number,
+  slot: Slot || null,
+});
 
-function activateSlot() {
-  slotIsActive.value = true;
-}
+const { index, slot } = props;
+const item = slot?.item;
+const slotIsActive = ref(slot?.index === index);
 </script>
 
 <template>
-  <div class="slot" @contextmenu.prevent="activateSlot">
-    <Item v-if="slotIsActive"></Item>
+  <div class="slot">
+    <Item
+      v-if="slotIsActive"
+      :src="item?.src"
+      :key="index"
+      :index="index"
+    ></Item>
   </div>
 </template>
 

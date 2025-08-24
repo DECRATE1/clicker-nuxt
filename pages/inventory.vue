@@ -1,7 +1,15 @@
+<script setup lang="ts">
+import { inventory } from "~/classes/Inventory";
+
+const invent = inventory.getInventory();
+console.log(invent);
+</script>
+
 <template>
   <div class="inventory_window">
     <div class="inventory">
-      <Slot v-for="n in 28"></Slot>
+      <Slot v-for="n in 28" :index="n - 1" key="n" :slot="invent[n - 1]">
+      </Slot>
     </div>
   </div>
 </template>
@@ -31,7 +39,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(7, 1fr);
-  gap: 5px;
+  gap: 1px;
 }
 
 @media (width >= 768px) {

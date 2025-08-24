@@ -14,7 +14,7 @@ export const enemyEntity = [
   {
     id: 3,
     name: "troll",
-    hp: 100,
+    hp: 15,
     src: "troll",
   },
 ];
