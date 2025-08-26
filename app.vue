@@ -1,3 +1,12 @@
+<script setup>
+import { inventory } from "./classes/Inventory";
+onMounted(() => {
+  window.addEventListener("beforeunload", () => {
+    inventory.saveInventory();
+  });
+});
+</script>
+
 <template>
   <NuxtLayout>
     <NuxtPage></NuxtPage>

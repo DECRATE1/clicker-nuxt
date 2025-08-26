@@ -1,26 +1,27 @@
 <script lang="ts" setup>
-import { ref } from "vue";
-import Item from "./Item.vue";
-import { Slot } from "~/classes/Slot";
+import { ref, Suspense } from "vue";
+import type { Slot } from "~/classes/Slot";
 
-const props = defineProps({
-  index: Number,
-  slot: Slot || null,
-});
+interface Props {
+  index: number;
+  slot: Slot | null | undefined;
+}
+
+const props = defineProps<Props>();
+const item = ref();
+const slotIsActive = ref();
+const itemSrc = ref();
 
 const { index, slot } = props;
-const item = slot?.item;
-const slotIsActive = ref(slot?.index === index);
+item.value = slot?.item;
+slotIsActive.value = slot?.index === index;
+itemSrc.value = "/_nuxt/public/" + slot?.item.src + ".png";
 </script>
 
 <template>
   <div class="slot">
-    <Item
-      v-if="slotIsActive"
-      :src="item?.src"
-      :key="index"
-      :index="index"
-    ></Item>
+    <Item :src="itemSrc"></Item>
+    <span class="quanity-number">{{ slot?.quantity }}</span>
   </div>
 </template>
 
@@ -36,5 +37,14 @@ const slotIsActive = ref(slot?.index === index);
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+}
+
+.quanity-number {
+  position: absolute;
+  margin-top: auto;
+  right: 15px;
+  bottom: 15px;
+  font-weight: bold;
 }
 </style>

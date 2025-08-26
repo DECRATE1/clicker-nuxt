@@ -8,13 +8,12 @@ const props = defineProps({
 })
 
 const {src} = props
-
-const itemSrc = ref("/_nuxt/public/"+src+".png")
+const image = ref(src)
 </script>
 
 
 <template>
-    <img class="item" draggable="false" :src="itemSrc" :key="index"></img>
+    <img class="item" draggable="false" :src="image" :key="index" v-show="src!.split('/')[3] !== 'undefined.png'"></img>
 </template>
 
 <style>

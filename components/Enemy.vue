@@ -23,7 +23,7 @@ const scaleValue = ref<number>(1);
 const damageIsTaken = ref<boolean>(false);
 const srcImage = ref("/_nuxt/public/"+src+".png")
 
-const inventoryStore = useInventoryStore()
+
 
 
 
@@ -36,7 +36,7 @@ function takeDamage(): void {
     const itemData = ItemData[Math.floor(Math.random() * ItemData.length)]
     const item = new Item(itemData!)
     if(item.isDropted()){
-      inventoryStore.addItem(item)
+      inventory.addToInventory(item)
     }
     appStore.endFight()
     return
